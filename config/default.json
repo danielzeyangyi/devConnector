@@ -1,3 +1,4 @@
 {
-  "mongoURI": "mongodb+srv://zey218:yi941015@devconnector-x4anr.mongodb.net/test?retryWrites=true"
+  "mongoURI": "mongodb+srv://zey218:yi941015@devconnector-x4anr.mongodb.net/test?retryWrites=true",
+  "jwtSecret": "verydiscretesecret"
 }
