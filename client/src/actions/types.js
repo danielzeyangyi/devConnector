@@ -12,4 +12,5 @@ export const LOGOUT = 'LOGOUT';
 
 //Profile
 export const GET_PROFILE = 'GET_PROFILE';
+export const CLEAR_PROFILE = 'CLEAR_PROFILE';
 export const PROFILE_ERROR = 'PROFILE_ERROR';
