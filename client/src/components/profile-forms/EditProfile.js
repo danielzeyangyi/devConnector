@@ -1,8 +1,8 @@
 import React, { Fragment, useState, useEffect } from 'react';
+import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createProfile, getCurrentProfile } from '../../actions/profile';
-import { Link, withRouter } from 'react-router-dom';
 
 const EditProfile = ({
   profile: { profile, loading },
@@ -24,21 +24,6 @@ const EditProfile = ({
     youtube: '',
     instagram: ''
   });
-
-  const {
-    company,
-    website,
-    location,
-    status,
-    skills,
-    githubusername,
-    bio,
-    twitter,
-    facebook,
-    linkedin,
-    youtub,
-    instagram
-  } = formData;
 
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
 
@@ -62,6 +47,21 @@ const EditProfile = ({
     });
   }, [loading, getCurrentProfile]);
 
+  const {
+    company,
+    website,
+    location,
+    status,
+    skills,
+    githubusername,
+    bio,
+    twitter,
+    facebook,
+    linkedin,
+    youtube,
+    instagram
+  } = formData;
+
   const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -72,16 +72,15 @@ const EditProfile = ({
 
   return (
     <Fragment>
-      <h1 className='large text-primary'>Create Your Profile</h1>
+      <h1 className='large text-primary'>Edit Your Profile</h1>
       <p className='lead'>
-        <i className='fas fa-user' /> Let's get some information to make your
-        profile stand out
+        <i className='fas fa-user' /> Add some changes to your profile
       </p>
       <small>* = required field</small>
       <form className='form' onSubmit={e => onSubmit(e)}>
-        <div className='form-group' value={status} onChange={e => onChange(e)}>
-          <select name='status'>
-            <option value='0'>* Select Professional Status</option>
+        <div className='form-group'>
+          <select name='status' value={status} onChange={e => onChange(e)}>
+            <option>* Select Professional Status</option>
             <option value='Developer'>Developer</option>
             <option value='Junior Developer'>Junior Developer</option>
             <option value='Senior Developer'>Senior Developer</option>
@@ -207,7 +206,7 @@ const EditProfile = ({
                 type='text'
                 placeholder='YouTube URL'
                 name='youtube'
-                value={youtub}
+                value={youtube}
                 onChange={e => onChange(e)}
               />
             </div>

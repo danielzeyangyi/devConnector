@@ -55,10 +55,6 @@ const Profile = ({
               )}
             </div>
 
-            {profile.githubusername && (
-              <ProfileGithub username={profile.githubusername} />
-            )}
-
             <div className='profile-edu bg-white p-2'>
               <h2 className='text-primary'>Education</h2>
               {profile.education.length > 0 ? (
@@ -74,6 +70,10 @@ const Profile = ({
                 <h4>No education credentials</h4>
               )}
             </div>
+
+            {profile.githubusername && (
+              <ProfileGithub username={profile.githubusername} />
+            )}
           </div>
         </Fragment>
       )}

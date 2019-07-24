@@ -1,66 +1,63 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import Spinner from '../layout/Spinner';
+import { getGithubRepos } from '../../actions/profile';
 
-const ProfileTop = ({
-  profile: {
-    status,
-    company,
-    location,
-    website,
-    social,
-    user: { name, avatar }
-  }
-}) => {
+const ProfileGithub = ({ username, getGithubRepos, repos }) => {
+  useEffect(() => {
+    getGithubRepos(username);
+  }, [getGithubRepos]);
+
   return (
-    <div className='profile-top bg-primary p-2'>
-      <img className='round-img my-1' src={avatar} alt='' />
-      <h1 className='large'>{name}</h1>
-      <p className='lead'>
-        {status} {company && <span>at {company}</span>}
-      </p>
-      <p>{location && <span>{location}</span>}</p>
-      <div className='icons my-1'>
-        {website && (
-          <a href={website} target='_blank' rel='noopener noreferrer'>
-            <i className='fas fa-globe fa-2x' />
-          </a>
-        )}
-        {social && social.twitter && (
-          <a href={social.twitter} target='_blank' rel='noopener noreferrer'>
-            <i className='fab fa-twitter fa-2x' />
-          </a>
-        )}
-        {social && social.facebook && (
-          <a href={social.facebook} target='_blank' rel='noopener noreferrer'>
-            <i className='fab fa-facebook fa-2x' />
-          </a>
-        )}
-        {social && social.linkedin && (
-          <a href={social.linkedin} target='_blank' rel='noopener noreferrer'>
-            <i className='fab fa-linkedin fa-2x' />
-          </a>
-        )}
-        {social && social.youtube && (
-          <a href={social.youtube} target='_blank' rel='noopener noreferrer'>
-            <i className='fab fa-youtube fa-2x' />
-          </a>
-        )}
-        {social && social.instagram && (
-          <a
-            href={`https://www.instagram.com/${social.instagram}`}
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            <i className='fab fa-instagram fa-2x' />
-          </a>
-        )}
-      </div>
+    <div className='profile-github'>
+      <h2 className='text-primary my-1'>Github Repos</h2>
+      {repos === null ? (
+        <Spinner />
+      ) : (
+        repos.map(repo => (
+          <div key={repo.id} className='repo bg-white p-1 my-1'>
+            <div>
+              <h4>
+                <a
+                  href={repo.html_url}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                >
+                  {repo.name}
+                </a>
+              </h4>
+              <p>{repo.description}</p>
+            </div>
+            <div>
+              <ul>
+                <li className='badge badge-primary'>
+                  Stars: {repo.stargazers_count}
+                </li>
+                <li className='badge badge-dark'>
+                  Watchers: {repo.watchers_count}
+                </li>
+                <li className='badge badge-light'>Forks: {repo.forks_count}</li>
+              </ul>
+            </div>
+          </div>
+        ))
+      )}
     </div>
   );
 };
 
-ProfileTop.propTypes = {
-  profile: PropTypes.object.isRequired
+ProfileGithub.propTypes = {
+  getGithubRepos: PropTypes.func.isRequired,
+  repos: PropTypes.array.isRequired,
+  username: PropTypes.string.isRequired
 };
 
-export default ProfileTop;
+const mapStateToProps = state => ({
+  repos: state.profile.repos
+});
+
+export default connect(
+  mapStateToProps,
+  { getGithubRepos }
+)(ProfileGithub);
